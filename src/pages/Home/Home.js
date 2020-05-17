@@ -27,8 +27,6 @@ function Home() {
 
                 const pokemonsJson = await pokemons.json()
 
-                console.log(pokemonsJson)
-
                 setPokemons(pokemonsJson)
             } catch (e) {
                 console.error(e)

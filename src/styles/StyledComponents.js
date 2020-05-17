@@ -70,4 +70,14 @@ export const PokemonBox = styled.div`
     height: 115px;
     background: #8BBE8A;
     border-radius: 10px;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+
+    p{
+        font-family: 'SF Pro Display Bold';
+        font-size: 26px;
+        line-height: 31px;
+        color: #FFFFFF;
+    }
 `
