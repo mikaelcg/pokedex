@@ -5,7 +5,7 @@ import React from 'react';
 import './App.css';
 
 //Router
-import { BrowserRouter, Link } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 
 //Routes
 import Routes from '../../routes'
@@ -15,10 +15,6 @@ function App() {
     <>
       <BrowserRouter>
         <Routes />
-
-        <Link to="/">Home</Link>
-        <br></br>
-        <Link to="/about">About</Link>
       </BrowserRouter>
     </>
   );

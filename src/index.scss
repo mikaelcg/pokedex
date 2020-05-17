@@ -1,0 +1,28 @@
+/* Css Reset */
+@import-normalize;
+
+@import './assets/reset.scss';
+
+@font-face {
+  font-family: 'SF Pro Display';
+  font-style: normal;
+  src: url('../src/assets/fonts/SFProDisplay.ttf');
+}
+
+@font-face {
+  font-family: 'SF Pro Display Bold';
+  font-style: normal;
+  src: url('../src/assets/fonts/SFProDisplayBold.ttf');
+}
+
+body {
+  margin: 0;
+  font-family: 'SF Pro Display';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

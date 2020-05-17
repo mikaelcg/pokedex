@@ -4,11 +4,10 @@ import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 
 //Css
-import './index.css';
+import './index.scss';
 
 //Components
 import App from './components/App/App';
-
 
 
 ReactDOM.render(

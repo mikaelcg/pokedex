@@ -1,0 +1,28 @@
+.Home{
+    display: flex;
+    flex-direction: column;
+    padding: 100px 20px 0 20px;
+
+    @media screen and (min-width: 375px){
+        padding: 100px 40px 0 40px;
+    }
+
+    &__PokemonList{
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: 30px;
+
+        @media screen and (min-width: 768px){
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media screen and (min-width: 1440px){
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media screen and (min-width: 1920px){
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+}
