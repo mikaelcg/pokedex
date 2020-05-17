@@ -1,10 +1,10 @@
 .Home{
     display: flex;
     flex-direction: column;
-    padding: 100px 20px 0 20px;
+    padding: 100px 20px;
 
     @media screen and (min-width: 375px){
-        padding: 100px 40px 0 40px;
+        padding: 100px 40px;
     }
 
     &__PokemonList{
