@@ -7,11 +7,13 @@ import { InputComponent } from '../../styles/StyledComponents';
 //Icons
 import { MdSearch } from 'react-icons/md';
 
-function SearchInput() {
+function SearchInput(props) {
+
+
     return (
         <InputComponent>
             <MdSearch />
-            <input placeholder="What Pokémon are you looking for?"></input>
+            <input placeholder="What Pokémon are you looking for?" onChange={e => props.handleSearch(e.target.value)}></input>
         </InputComponent>
     );
 }

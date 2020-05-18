@@ -11,7 +11,7 @@ import About from '../pages/About/About'
 function Routes() {
     return (
         <Switch>
-            <Route path="/" exact component={Home} />
+            <Route path="/:id?" exact component={Home} />
             <Route path="/about" component={About} />
         </Switch>
     )

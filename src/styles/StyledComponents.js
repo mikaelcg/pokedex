@@ -68,7 +68,8 @@ export const InputComponent = styled.div`
 export const PokemonBox = styled.div`
     max-width: 100%;
     height: 115px;
-    background: #8BBE8A;
+    /* background: #8BBE8A; */
+    background: ${props => `${props.bgColor}`};
     border-radius: 10px;
     display:flex;
     justify-content: center;
