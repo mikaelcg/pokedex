@@ -43,13 +43,14 @@ function PokemonBoxComponent(props) {
     }
 
     const renderPokemonBox = () => {
-        if (!props.pokemon) return null
+        if (!props) return null
 
         return (
-            <PokemonBox bgColor={getPokemonColor(props.pokemon.color.name)}>
-                <p>{props.pokemon.name}</p>
+            <PokemonBox>
+                {/* <PokemonBox bgColor={getPokemonColor(props.pokemon.color.name)}> */}
+                <p>{props.name}</p>
 
-                <img src={props.pokemon.sprites.front_default}></img>
+                {/* <img src={props.sprites.front_default}></img> */}
             </PokemonBox>
         )
     }

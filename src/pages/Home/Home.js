@@ -9,124 +9,132 @@ import PokemonBox from '../../components/PokemonBox/PokemonBox'
 //Style
 import './Home.scss'
 
+//API
+import { getPokemons } from '../../services/api';
+
 
 function Home(props) {
-    let [pokemons, setPokemons] = useState([])
+    let [pokemons, setPokemons] = useState(false)
     let [isLoading, setIsLoading] = useState(false)
     let [nextPage, setNextPage] = useState(null)
     let [previousPage, setPreviousPage] = useState(null)
 
     useEffect(() => {
-        const handleFetchAllPokemons = async () => {
-            setIsLoading(true)
-            await fetchAllPokemons()
-            setIsLoading(false)
-        }
-
-        const handleFetchPokemon = async (id) => {
-            setIsLoading(true)
-            await fetchPokemon(id)
-            setIsLoading(false)
-        }
-
-        if (props.match.params.id) {
-            handleFetchPokemon(props.match.params.id)
-        } else {
-            handleFetchAllPokemons()
-        }
-
+        fetchPokemons(props.match.params.id);
     }, [])
 
-    const fetchAllPokemons = async () => {
+    const fetchPokemons = async (id) => {
         try {
-            const ajaxConfig = {
-                method: 'GET',
-                mode: 'cors',
-                cache: 'default'
-            };
+            const pokemonData = await getPokemons(id);
 
-            const pokemons = await fetch(`https://pokeapi.co/api/v2/pokemon/`, ajaxConfig)
-
-            const pokemonsJson = await pokemons.json()
-
-            pokemonsJson.results.forEach(pokemon => {
-                fetchPokemonData(pokemon)
-            })
-
-            setNextPage(pokemonsJson.next)
-            setPreviousPage(pokemonsJson.previous)
-        } catch (e) {
-            console.error(e)
+            setPokemons(pokemonData.results);
+            setNextPage(pokemonData.next);
+            setPreviousPage(pokemonData.previous);
+        } catch (error) {
+            alert(error)
         }
+    }
+
+    const fetchAllPokemons = async () => {
+        // try {
+        //     const ajaxConfig = {
+        //         method: 'GET',
+        //         mode: 'cors',
+        //         cache: 'default'
+        //     };
+
+        //     const pokemons = await fetch(`https://pokeapi.co/api/v2/pokemon/`, ajaxConfig)
+
+        //     const pokemonsJson = await pokemons.json()
+
+        //     pokemonsJson.results.forEach(pokemon => {
+        //         fetchPokemonData(pokemon)
+        //     })
+
+        //     setNextPage(pokemonsJson.next)
+        //     setPreviousPage(pokemonsJson.previous)
+        // } catch (e) {
+        //     console.error(e)
+        // }
     }
 
     const fetchPokemon = async (pokemon = ``) => {
-        let pokemonAux = pokemon
+        // let pokemonAux = pokemon
 
-        try {
+        // try {
 
-            const ajaxConfig = {
-                method: 'GET',
-                mode: 'cors',
-                cache: 'default'
-            };
+        //     const ajaxConfig = {
+        //         method: 'GET',
+        //         mode: 'cors',
+        //         cache: 'default'
+        //     };
 
-            const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonAux}`, ajaxConfig)
+        //     const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonAux}`, ajaxConfig)
 
-            const pokemonJson = await pokemon.json()
+        //     const pokemonJson = await pokemon.json()
 
-            setPokemons([pokemonJson])
+        //     setPokemons([pokemonJson])
 
-            return
-        } catch (e) {
-            return console.error(e)
-        }
+        //     return
+        // } catch (e) {
+        //     return console.error(e)
+        // }
     }
 
     const fetchPokemonData = async (pokemonAux) => {
-        try {
-            const ajaxConfig = {
-                method: 'GET',
-                mode: 'cors',
-                cache: 'default'
-            };
+        // try {
+        //     const ajaxConfig = {
+        //         method: 'GET',
+        //         mode: 'cors',
+        //         cache: 'default'
+        //     };
 
-            const pokemon = await fetch(pokemonAux.url, ajaxConfig)
+        //     const pokemon = await fetch(pokemonAux.url, ajaxConfig)
 
-            const pokemonJson = await pokemon.json()
+        //     const pokemonJson = await pokemon.json()
 
-            const pokemonSpecies = await fetch(pokemonJson.species.url, ajaxConfig)
+        //     const pokemonSpecies = await fetch(pokemonJson.species.url, ajaxConfig)
 
-            const pokemonSpeciesJson = await pokemonSpecies.json()
+        //     const pokemonSpeciesJson = await pokemonSpecies.json()
 
-            let pokemonArray = []
+        //     let pokemonArray = []
 
-            pokemonArray.push({ ...pokemonJson, ...pokemonSpeciesJson })
+        //     pokemonArray.push({ ...pokemonJson, ...pokemonSpeciesJson })
 
-            setPokemons(pokemonArray)
-        } catch (e) {
-            console.error(e)
-        }
+        //     setPokemons(pokemonArray)
+        // } catch (e) {
+        //     console.error(e)
+        // }
     }
 
     const listRender = () => {
-        if (isLoading) {
-            return (<p>Loading</p>)
-        }
+        if (!pokemons) return null
 
-        if (pokemons && pokemons.length === 0) {
-            return (<p>No results</p>)
-        }
+        let pokemonsArray = []
 
-        let array = []
+        pokemons.map((pokemon, index) => {
+            pokemonsArray.push(<PokemonBox {...pokemon} key={index}></PokemonBox>)
+        })
 
-        if (pokemons) {
-            pokemons.map((pokemon, index) => {
-                array.push(<PokemonBox pokemon={pokemon} key={index}></PokemonBox>)
-            })
-        }
+        return pokemonsArray
 
-        return array
+        // if (isLoading) {
+        //     return (<p>Loading</p>)
+        // }
+
+        // if (pokemons && pokemons.length === 0) {
+        //     return (<p>No results</p>)
+        // }
+
+        // let array = []
+
+        // if (pokemons) {
+        //     pokemons.map((pokemon, index) => {
+        //         array.push(<PokemonBox pokemon={pokemon} key={index}></PokemonBox>)
+        //     })
+        // }
+
+        // return array
     }
 
     return (
@@ -135,7 +143,8 @@ function Home(props) {
 
             <SubTitle fontSize={16}>Search for Pokémon by name or using the National Pokédex number.</SubTitle>
 
-            <SearchInput handleSearch={(val) => { fetchPokemon(val) }} />
+            <SearchInput handleSearch={(val) => { console.log(val) }} />
+            {/* <SearchInput handleSearch={(val) => { fetchPokemon(val) }} /> */}
 
             <div className="Home__PokemonList">
                 {
