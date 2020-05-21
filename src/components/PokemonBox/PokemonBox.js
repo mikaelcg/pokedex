@@ -1,6 +1,9 @@
 //React
 import React from 'react'
 
+//Components
+import PokemonBoxInfo from '../PokemonBoxInfo/PokemonBoxInfo'
+
 //Styled Components
 import { PokemonBox } from '../../styles/StyledComponents';
 
@@ -68,15 +71,7 @@ function PokemonBoxComponent(props) {
 
         return (
             <PokemonBox bgColor={getPokemonColor(props.color.name)}>
-                <div className="PokemonBoxInfo">
-                    <p className="PokemonBoxInfo__Number">#{getPokemonNumber(props.id)}</p>
-
-                    <p className="PokemonBoxInfo__Name">{props.name}</p>
-
-                    <div className="PokemonBoxInfo__Types">
-                        {getPokemonTypes(props.types)}
-                    </div>
-                </div>
+                <PokemonBoxInfo {...props} />
 
                 <img src={props.sprites.front_default}></img>
             </PokemonBox>
