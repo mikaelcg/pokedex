@@ -85,6 +85,10 @@ function Home(props) {
     }
 
     const searchPokemons = (search) => {
+        if (typeof search === 'string') {
+            search = search.toLocaleLowerCase()
+        }
+
         window.clearTimeout(searchTimeout)
 
         setSearchTimeout(window.setTimeout(async () => {

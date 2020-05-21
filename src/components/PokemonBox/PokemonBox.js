@@ -37,12 +37,46 @@ function PokemonBoxComponent(props) {
         return color
     }
 
+    const getPokemonNumber = (id) => {
+        if (id.toString().length === 1) {
+            id = `00${id}`
+        }
+
+        if (id.toString().length === 2) {
+            id = `0${id}`
+        }
+
+        return id
+    }
+
+    const getPokemonTypes = (types) => {
+        const typesArray = types.map(type => {
+            return (
+                <div className={`Type Type--${type.type.name}`}>
+                    <p>
+                        {type.type.name}
+                    </p>
+                </div>
+            )
+        })
+
+        return typesArray
+    }
+
     const renderPokemonBox = () => {
         if (!props) return null
 
         return (
             <PokemonBox bgColor={getPokemonColor(props.color.name)}>
-                <p>{props.name}</p>
+                <div className="PokemonBoxInfo">
+                    <p className="PokemonBoxInfo__Number">#{getPokemonNumber(props.id)}</p>
+
+                    <p className="PokemonBoxInfo__Name">{props.name}</p>
+
+                    <div className="PokemonBoxInfo__Types">
+                        {getPokemonTypes(props.types)}
+                    </div>
+                </div>
 
                 <img src={props.sprites.front_default}></img>
             </PokemonBox>
