@@ -1,26 +1,34 @@
-## Available Scripts
+# Pokédex
 
-In the project directory, you can run:
+Projeto criado consumindo a API https://pokeapi.co/
+
+## Recursos utilizados neste projeto:
+
+- React
+- React Hooks
+- React Context API
+- Styled Components
+- Scss
+- Estrutura B.E.M (Block, Element, Modifier)
+- Axios
+- Mobile First
+
+Não foram instalados pacotes de componentes adicionais.
+
+## Como Iniciar o Projeto
 
 ### `npm start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Roda o projeto em modo de desenvolvimento, com a url [http://localhost:3000](http://localhost:3000) 
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### `npm run buld`
 
-### `npm test`
+Gera o build de produção otimizado dentro da pasta 'build'. 
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Sobre
 
-### `npm run build`
+Ao entrar na página inicial, serão carregados todos os pokémons. 
+Há uma campo input simples. Ao digitar nele, automaticamente será pesquisado um pokémon pelo ID ou nome inseridos.
+Ao selecionar um pokémon, será redirecionado a uma pagina contendo mais informações sobre este.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Feito por: Mikael C. Gallucci
