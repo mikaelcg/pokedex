@@ -2,16 +2,20 @@
 
 Projeto criado consumindo a API https://pokeapi.co/
 
+Link para acessar: [https://apipokedex.web.app](https://apipokedex.web.app) 
+
 ## Recursos utilizados neste projeto:
 
 - React
 - React Hooks
 - React Context API
+- React Router Dom
 - Styled Components
 - Scss
 - Estrutura B.E.M (Block, Element, Modifier)
 - Axios
 - Mobile First
+- Deploy Firebase Hosting => [https://apipokedex.web.app](https://apipokedex.web.app) 
 
 Não foram instalados pacotes de componentes adicionais.
 
