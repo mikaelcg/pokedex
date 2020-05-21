@@ -6,8 +6,9 @@ const api = axios.create({
     baseURL,
 });
 
-export function getPokemons(params = '') {
-    return api.get(`pokemon/${params}`).then(response => response.data);
+export function getPokemons(pokemon, params) {
+    console.log(params)
+    return api.get(`pokemon/${pokemon}`, { params: params }).then(response => response.data);
 }
 
 export function getPokemonData(url) {

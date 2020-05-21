@@ -24,7 +24,6 @@ function Home(props) {
         nextPage, previousPage, currentPage, setNextPage, setPreviousPage, setCurrentPage
     } = usePagination()
 
-
     useEffect(() => {
         async function fetchAllPokemons() {
             setIsLoading(true)
@@ -35,9 +34,9 @@ function Home(props) {
         fetchAllPokemons()
     }, [])
 
-    const fetchPokemons = async (pokemon = '') => {
+    const fetchPokemons = async (pokemon = '', params = null) => {
         try {
-            const pokemonsList = await getPokemons(pokemon);
+            const pokemonsList = await getPokemons(pokemon, params);
 
             if (pokemon !== '') {
                 const pokemonSpecies = await getPokemonSpecies(pokemonsList.species.url)
@@ -103,6 +102,28 @@ function Home(props) {
         }, 700));
     }
 
+    const handleNextPage = async () => {
+        setIsLoading(true)
+        const url = new URL(nextPage);
+        const offset = url.searchParams.get("offset");
+        const limit = url.searchParams.get("limit");
+
+        await fetchPokemons('', { offset, limit })
+
+        setIsLoading(false)
+    }
+
+    const handlePreviousPage = async () => {
+        setIsLoading(true)
+        const url = new URL(previousPage);
+        const offset = url.searchParams.get("offset");
+        const limit = url.searchParams.get("limit");
+
+        await fetchPokemons('', { offset, limit })
+
+        setIsLoading(false)
+    }
+
     return (
         <section className="Home">
             <Title fontSize={32}>Pokédex</Title>
@@ -116,6 +137,9 @@ function Home(props) {
                     listRender()
                 }
             </div>
+
+            <button onClick={() => handlePreviousPage()}>Prev</button>
+            <button onClick={() => handleNextPage()}>Next</button>
         </section>
     )
 }
