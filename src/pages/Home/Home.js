@@ -10,7 +10,7 @@ import PokemonBox from '../../components/PokemonBox/PokemonBox'
 import './Home.scss'
 
 //API
-import { getPokemons } from '../../services/api';
+import { getPokemons, getPokemonData, getPokemonSpecies } from '../../services/api';
 
 
 function Home(props) {
@@ -18,97 +18,62 @@ function Home(props) {
     let [isLoading, setIsLoading] = useState(false)
     let [nextPage, setNextPage] = useState(null)
     let [previousPage, setPreviousPage] = useState(null)
+    let [searchTimeout, setSearchTimeout] = useState(null)
 
     useEffect(() => {
-        fetchPokemons(props.match.params.id);
+        async function fetchAllPokemons() {
+            setIsLoading(true)
+            await fetchPokemons(props.match.params.id);
+            setIsLoading(false)
+        }
+
+        fetchAllPokemons()
     }, [])
 
-    const fetchPokemons = async (id) => {
+    const fetchPokemons = async (pokemon = '') => {
         try {
-            const pokemonData = await getPokemons(id);
+            const pokemonsList = await getPokemons(pokemon);
 
-            setPokemons(pokemonData.results);
-            setNextPage(pokemonData.next);
-            setPreviousPage(pokemonData.previous);
+            if (pokemon !== '') {
+                const pokemonSpecies = await getPokemonSpecies(pokemonsList.species.url)
+                setPokemons([{ ...pokemonsList, ...pokemonSpecies }]);
+            } else {
+                const pokemons = await fetchPokemonData(pokemonsList)
+
+                setPokemons(pokemons)
+                setNextPage(pokemonsList.next);
+                setPreviousPage(pokemonsList.previous);
+            }
         } catch (error) {
-            alert(error)
+            setPokemons([]);
+            console.error(error)
         }
     }
 
-    const fetchAllPokemons = async () => {
-        // try {
-        //     const ajaxConfig = {
-        //         method: 'GET',
-        //         mode: 'cors',
-        //         cache: 'default'
-        //     };
+    const fetchPokemonData = async (pokemonsList) => {
+        try {
+            const pokemons = await Promise.all(pokemonsList.results.map(async pokemon => {
+                const pokemonData = await getPokemonData(pokemon.url)
+                const pokemonSpecies = await getPokemonSpecies(pokemonData.species.url)
+                return { ...pokemonData, ...pokemonSpecies }
+            }))
 
-        //     const pokemons = await fetch(`https://pokeapi.co/api/v2/pokemon/`, ajaxConfig)
-
-        //     const pokemonsJson = await pokemons.json()
-
-        //     pokemonsJson.results.forEach(pokemon => {
-        //         fetchPokemonData(pokemon)
-        //     })
-
-        //     setNextPage(pokemonsJson.next)
-        //     setPreviousPage(pokemonsJson.previous)
-        // } catch (e) {
-        //     console.error(e)
-        // }
-    }
-
-    const fetchPokemon = async (pokemon = ``) => {
-        // let pokemonAux = pokemon
-
-        // try {
-
-        //     const ajaxConfig = {
-        //         method: 'GET',
-        //         mode: 'cors',
-        //         cache: 'default'
-        //     };
-
-        //     const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonAux}`, ajaxConfig)
-
-        //     const pokemonJson = await pokemon.json()
-
-        //     setPokemons([pokemonJson])
-
-        //     return
-        // } catch (e) {
-        //     return console.error(e)
-        // }
-    }
-
-    const fetchPokemonData = async (pokemonAux) => {
-        // try {
-        //     const ajaxConfig = {
-        //         method: 'GET',
-        //         mode: 'cors',
-        //         cache: 'default'
-        //     };
-
-        //     const pokemon = await fetch(pokemonAux.url, ajaxConfig)
-
-        //     const pokemonJson = await pokemon.json()
-
-        //     const pokemonSpecies = await fetch(pokemonJson.species.url, ajaxConfig)
-
-        //     const pokemonSpeciesJson = await pokemonSpecies.json()
-
-        //     let pokemonArray = []
-
-        //     pokemonArray.push({ ...pokemonJson, ...pokemonSpeciesJson })
-
-        //     setPokemons(pokemonArray)
-        // } catch (e) {
-        //     console.error(e)
-        // }
+            return pokemons
+        } catch (e) {
+            console.error(e)
+        }
     }
 
     const listRender = () => {
+        if (isLoading) {
+            return (<p>Loading</p>)
+        }
+
         if (!pokemons) return null
+
+        if (pokemons && pokemons.length === 0) {
+            return (<p>No results</p>)
+        }
 
         let pokemonsArray = []
 
@@ -117,24 +82,16 @@ function Home(props) {
         })
 
         return pokemonsArray
+    }
 
-        // if (isLoading) {
-        //     return (<p>Loading</p>)
-        // }
+    const searchPokemons = (search) => {
+        window.clearTimeout(searchTimeout)
 
-        // if (pokemons && pokemons.length === 0) {
-        //     return (<p>No results</p>)
-        // }
-
-        // let array = []
-
-        // if (pokemons) {
-        //     pokemons.map((pokemon, index) => {
-        //         array.push(<PokemonBox pokemon={pokemon} key={index}></PokemonBox>)
-        //     })
-        // }
-
-        // return array
+        setSearchTimeout(window.setTimeout(async () => {
+            setIsLoading(true)
+            await fetchPokemons(search)
+            setIsLoading(false)
+        }, 700));
     }
 
     return (
@@ -143,8 +100,7 @@ function Home(props) {
 
             <SubTitle fontSize={16}>Search for Pokémon by name or using the National Pokédex number.</SubTitle>
 
-            <SearchInput handleSearch={(val) => { console.log(val) }} />
-            {/* <SearchInput handleSearch={(val) => { fetchPokemon(val) }} /> */}
+            <SearchInput handleSearch={(val) => { searchPokemons(val) }} />
 
             <div className="Home__PokemonList">
                 {

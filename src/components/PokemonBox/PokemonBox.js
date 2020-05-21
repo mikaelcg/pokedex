@@ -4,20 +4,15 @@ import React from 'react'
 //Styled Components
 import { PokemonBox } from '../../styles/StyledComponents';
 
-
 function PokemonBoxComponent(props) {
     const getPokemonColor = (color) => {
-        if (color === 'green') {
-            return `#8BBE8A`;
-        }
+        if (!color) return 'black'
 
-        if (color === 'red') {
-            return `#FFA756`
-        }
+        if (color === 'green') return `#8BBE8A`;
 
-        if (color === 'blue') {
-            return `#58ABF6`
-        }
+        if (color === 'red') return `#FFA756`;
+
+        if (color === 'blue') return `#58ABF6`;
 
         if (color === 'white') {
             return `#EDEEF0`
@@ -46,16 +41,13 @@ function PokemonBoxComponent(props) {
         if (!props) return null
 
         return (
-            <PokemonBox>
-                {/* <PokemonBox bgColor={getPokemonColor(props.pokemon.color.name)}> */}
+            <PokemonBox bgColor={getPokemonColor(props.color.name)}>
                 <p>{props.name}</p>
 
-                {/* <img src={props.sprites.front_default}></img> */}
+                <img src={props.sprites.front_default}></img>
             </PokemonBox>
         )
     }
-
-
 
     return (
         <>

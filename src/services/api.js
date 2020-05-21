@@ -9,3 +9,11 @@ const api = axios.create({
 export function getPokemons(params = '') {
     return api.get(`pokemon/${params}`).then(response => response.data);
 }
+
+export function getPokemonData(url) {
+    return api.get(url).then(response => response.data);
+}
+
+export function getPokemonSpecies(url) {
+    return api.get(url).then(response => response.data);
+}
