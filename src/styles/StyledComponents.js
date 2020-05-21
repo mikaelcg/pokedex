@@ -104,7 +104,7 @@ export const PokemonBox = styled.div`
 
             .Type {
                 padding: 5px;
-                border-radius: 5px;
+                border-radius: 3px;
                 margin-right: 10px;
                 
                 p{

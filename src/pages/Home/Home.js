@@ -2,23 +2,28 @@
 import React, { useState, useEffect } from 'react'
 
 //Components
-import { Title, SubTitle } from '../../styles/StyledComponents';
-import SearchInput from '../../components/SearchInput/SearchInput';
+import { Title, SubTitle } from '../../styles/StyledComponents'
+import SearchInput from '../../components/SearchInput/SearchInput'
 import PokemonBox from '../../components/PokemonBox/PokemonBox'
+
+//Context API
+import { usePagination } from '../../contexts/PaginationContext'
 
 //Style
 import './Home.scss'
 
 //API
-import { getPokemons, getPokemonData, getPokemonSpecies } from '../../services/api';
+import { getPokemons, getPokemonData, getPokemonSpecies } from '../../services/api'
 
 
 function Home(props) {
-    let [pokemons, setPokemons] = useState(false)
-    let [isLoading, setIsLoading] = useState(false)
-    let [nextPage, setNextPage] = useState(null)
-    let [previousPage, setPreviousPage] = useState(null)
-    let [searchTimeout, setSearchTimeout] = useState(null)
+    const [pokemons, setPokemons] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const [searchTimeout, setSearchTimeout] = useState(null)
+    const {
+        nextPage, previousPage, currentPage, setNextPage, setPreviousPage, setCurrentPage
+    } = usePagination()
+
 
     useEffect(() => {
         async function fetchAllPokemons() {

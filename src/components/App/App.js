@@ -10,12 +10,17 @@ import { BrowserRouter } from 'react-router-dom'
 //Routes
 import Routes from '../../routes'
 
+//Providers
+import PaginationProvider from '../../contexts/PaginationContext'
+
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes />
-      </BrowserRouter>
+      <PaginationProvider>
+        <BrowserRouter>
+          <Routes />
+        </BrowserRouter>
+      </PaginationProvider>
     </>
   );
 }
